@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Body of Works Fitness mark">
+  <rect width="64" height="64" rx="32" fill="#171918"/>
+  <path d="M18 45c12-2 20-10 24-25 2 13-1 23-9 31-6 0-11-2-15-6Z" fill="#b9c7ad"/>
+  <path d="M20 16h19c8 0 13 4 13 11 0 4-2 7-6 9 5 2 8 6 8 12 0 9-6 14-17 14H20V16Zm10 9v8h8c3 0 5-2 5-4s-2-4-5-4h-8Zm0 17v11h9c4 0 6-2 6-5 0-4-2-6-7-6h-8Z" fill="#fffdf8"/>
+</svg>
