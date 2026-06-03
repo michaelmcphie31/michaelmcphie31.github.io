@@ -24,6 +24,33 @@ nav?.addEventListener("click", (event) => {
 window.addEventListener("scroll", syncHeader, { passive: true });
 syncHeader();
 
+const revealTargets = document.querySelectorAll(
+  ".section-heading, .intro-grid > *, .service-row, .price-card, .calendar-panel, .booking-form, .testimonial-card, .evidence-grid a, .reel-content"
+);
+
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  revealTargets.forEach((target, index) => {
+    target.classList.add("reveal");
+    if (target.classList.contains("service-row") && index % 2 === 0) target.classList.add("reveal-from-left");
+    if (target.classList.contains("service-row") && index % 2 !== 0) target.classList.add("reveal-from-right");
+    revealObserver.observe(target);
+  });
+} else {
+  revealTargets.forEach((target) => target.classList.add("is-visible"));
+}
+
 const calendarGrid = document.querySelector("[data-calendar-grid]");
 const calendarTitle = document.querySelector("[data-calendar-title]");
 const timeTitle = document.querySelector("[data-time-title]");

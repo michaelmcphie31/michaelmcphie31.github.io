@@ -312,6 +312,67 @@ h3 {
   background: var(--cream);
 }
 
+.movement-reel {
+  position: relative;
+  min-height: 560px;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.reel-media,
+.reel-media span,
+.reel-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.reel-media span {
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.06);
+  animation: reelFade 18s infinite;
+}
+
+.reel-media span:nth-child(1) {
+  background-image: url("../assets/images/home-coaching.webp");
+}
+
+.reel-media span:nth-child(2) {
+  background-image: url("../assets/images/home-pretzel.jpg");
+  animation-delay: 6s;
+}
+
+.reel-media span:nth-child(3) {
+  background-image: url("../assets/images/home-massage.webp");
+  animation-delay: 12s;
+}
+
+.reel-overlay {
+  background:
+    linear-gradient(90deg, rgba(12, 12, 11, 0.88), rgba(12, 12, 11, 0.46) 58%, rgba(12, 12, 11, 0.24)),
+    linear-gradient(0deg, rgba(12, 12, 11, 0.78), transparent 56%);
+}
+
+.reel-content {
+  position: relative;
+  z-index: 1;
+  padding: 110px 0 86px;
+}
+
+.reel-content h2 {
+  max-width: 780px;
+}
+
+.reel-content p:not(.eyebrow) {
+  max-width: 620px;
+  color: rgba(255, 253, 248, 0.78);
+  font-size: 1.12rem;
+}
+
 .intro-grid,
 .page-hero-grid {
   display: grid;
@@ -693,12 +754,48 @@ h3 {
 }
 
 .testimonial-card {
+  position: relative;
   display: grid;
-  gap: 28px;
+  gap: 22px;
+  overflow: hidden;
   background: var(--paper);
+  box-shadow: 0 18px 48px rgba(22, 23, 21, 0.08);
+}
+
+.testimonial-card::before {
+  content: "“";
+  position: absolute;
+  top: -18px;
+  right: 26px;
+  color: rgba(240, 90, 36, 0.16);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 8rem;
+  line-height: 1;
+}
+
+.testimonial-rating {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.testimonial-rating span {
+  display: inline-block;
+  color: var(--ember);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.testimonial-rating small {
+  color: rgba(22, 23, 21, 0.58);
+  font-weight: 900;
 }
 
 .testimonial-card p {
+  position: relative;
+  z-index: 1;
   margin-bottom: 0;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.35rem, 2.4vw, 2rem);
@@ -706,7 +803,12 @@ h3 {
   color: inherit;
 }
 
-.testimonial-card span {
+.testimonial-card > div:last-child {
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-card > div:last-child span {
   display: block;
   margin-top: 4px;
   color: rgba(22, 23, 21, 0.58);
@@ -823,6 +925,46 @@ h3 {
   font-size: 0.92rem;
 }
 
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 680ms ease, transform 680ms ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-from-left {
+  transform: translateX(-42px);
+}
+
+.reveal-from-right {
+  transform: translateX(42px);
+}
+
+.reveal-from-left.is-visible,
+.reveal-from-right.is-visible {
+  transform: translateX(0);
+}
+
+@keyframes reelFade {
+  0% {
+    opacity: 0;
+    transform: scale(1.06) translateY(0);
+  }
+  8%,
+  34% {
+    opacity: 1;
+  }
+  44%,
+  100% {
+    opacity: 0;
+    transform: scale(1.14) translateY(-14px);
+  }
+}
+
 @media (max-width: 920px) {
   .site-header {
     padding: 14px 20px;
@@ -881,6 +1023,10 @@ h3 {
 
   .section {
     padding: 70px 0;
+  }
+
+  .movement-reel {
+    min-height: 520px;
   }
 
   .intro-grid,
@@ -976,5 +1122,21 @@ h3 {
   .calendar-day {
     min-height: 42px;
     font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
