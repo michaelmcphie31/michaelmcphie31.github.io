@@ -24,8 +24,38 @@ nav?.addEventListener("click", (event) => {
 window.addEventListener("scroll", syncHeader, { passive: true });
 syncHeader();
 
+const hero = document.querySelector(".hero");
+const heroVideo = document.querySelector("[data-hero-video]");
+const heroVideoBackdrop = document.querySelector("[data-hero-video-backdrop]");
+const heroVideoPath = "assets/videos/workout-background.mp4";
+
+if (hero && heroVideo && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (heroVideoBackdrop) heroVideoBackdrop.src = heroVideoPath;
+  heroVideo.src = heroVideoPath;
+  heroVideo.addEventListener(
+    "canplay",
+    () => {
+      hero.classList.add("has-video");
+      heroVideoBackdrop?.play().catch(() => {});
+      heroVideo.play().catch(() => {});
+    },
+    { once: true }
+  );
+  heroVideo.addEventListener(
+    "error",
+    () => {
+      hero.classList.remove("has-video");
+      heroVideo.removeAttribute("src");
+      heroVideoBackdrop?.removeAttribute("src");
+    },
+    { once: true }
+  );
+  heroVideoBackdrop?.load();
+  heroVideo.load();
+}
+
 const revealTargets = document.querySelectorAll(
-  ".section-heading, .intro-grid > *, .service-row, .price-card, .calendar-panel, .booking-form, .testimonial-card, .evidence-grid a, .reel-content"
+  ".section-heading, .intro-grid > *, .page-hero-grid > *, .split-copy, .image-panel, .values-grid article, .service-row, .price-card, .calendar-panel, .booking-form, .testimonial-card, .evidence-grid a"
 );
 
 if ("IntersectionObserver" in window) {
@@ -45,6 +75,13 @@ if ("IntersectionObserver" in window) {
     target.classList.add("reveal");
     if (target.classList.contains("service-row") && index % 2 === 0) target.classList.add("reveal-from-left");
     if (target.classList.contains("service-row") && index % 2 !== 0) target.classList.add("reveal-from-right");
+    if (target.classList.contains("split-copy")) target.classList.add("reveal-from-left");
+    if (target.classList.contains("image-panel")) target.classList.add("reveal-from-right");
+    if (target.matches(".page-hero-grid > :first-child")) target.classList.add("reveal-from-left");
+    if (target.matches(".page-hero-grid > p")) target.classList.add("reveal-from-right");
+    if (target.matches(".values-grid article")) {
+      target.style.transitionDelay = `${Math.min(index % 3, 2) * 90}ms`;
+    }
     revealObserver.observe(target);
   });
 } else {

@@ -160,10 +160,12 @@ body:not(.home) .site-nav a[aria-current="page"] {
   display: grid;
   align-items: end;
   overflow: hidden;
-  background: var(--charcoal);
+  background: #050505;
 }
 
 .hero-media,
+.hero-video-backdrop,
+.hero-video,
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -176,10 +178,46 @@ body:not(.home) .site-nav a[aria-current="page"] {
   transform: scale(1.01);
 }
 
+.hero-video-backdrop,
+.hero-video {
+  opacity: 0;
+  backface-visibility: hidden;
+  transition: opacity 700ms ease;
+  will-change: opacity;
+}
+
+.hero-video-backdrop {
+  width: 100%;
+  height: 100%;
+  filter: blur(6px) brightness(0.58) contrast(1.08) saturate(0.95);
+  object-fit: cover;
+  object-position: center center;
+  background: #050505;
+  transform: scale(1.02) translateZ(0);
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.78) contrast(1.04) saturate(0.97);
+  object-fit: contain;
+  object-position: right center;
+  transform: translateZ(0);
+}
+
+.hero.has-video .hero-video,
+.hero.has-video .hero-video-backdrop {
+  opacity: 1;
+}
+
+.hero.has-video .hero-media {
+  opacity: 0;
+}
+
 .hero-overlay {
   background:
-    linear-gradient(90deg, rgba(12, 12, 11, 0.85), rgba(12, 12, 11, 0.42) 54%, rgba(12, 12, 11, 0.18)),
-    linear-gradient(0deg, rgba(12, 12, 11, 0.72), transparent 52%);
+    linear-gradient(90deg, rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.52) 54%, rgba(5, 5, 5, 0.28)),
+    linear-gradient(0deg, rgba(5, 5, 5, 0.78), rgba(5, 5, 5, 0.14) 52%);
 }
 
 .hero-content {
@@ -310,67 +348,6 @@ h3 {
 
 .intro-band {
   background: var(--cream);
-}
-
-.movement-reel {
-  position: relative;
-  min-height: 560px;
-  display: grid;
-  align-items: end;
-  overflow: hidden;
-  color: var(--paper);
-  background: var(--ink);
-}
-
-.reel-media,
-.reel-media span,
-.reel-overlay {
-  position: absolute;
-  inset: 0;
-}
-
-.reel-media span {
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transform: scale(1.06);
-  animation: reelFade 18s infinite;
-}
-
-.reel-media span:nth-child(1) {
-  background-image: url("../assets/images/home-coaching.webp");
-}
-
-.reel-media span:nth-child(2) {
-  background-image: url("../assets/images/home-pretzel.jpg");
-  animation-delay: 6s;
-}
-
-.reel-media span:nth-child(3) {
-  background-image: url("../assets/images/home-massage.webp");
-  animation-delay: 12s;
-}
-
-.reel-overlay {
-  background:
-    linear-gradient(90deg, rgba(12, 12, 11, 0.88), rgba(12, 12, 11, 0.46) 58%, rgba(12, 12, 11, 0.24)),
-    linear-gradient(0deg, rgba(12, 12, 11, 0.78), transparent 56%);
-}
-
-.reel-content {
-  position: relative;
-  z-index: 1;
-  padding: 110px 0 86px;
-}
-
-.reel-content h2 {
-  max-width: 780px;
-}
-
-.reel-content p:not(.eyebrow) {
-  max-width: 620px;
-  color: rgba(255, 253, 248, 0.78);
-  font-size: 1.12rem;
 }
 
 .intro-grid,
@@ -949,22 +926,6 @@ h3 {
   transform: translateX(0);
 }
 
-@keyframes reelFade {
-  0% {
-    opacity: 0;
-    transform: scale(1.06) translateY(0);
-  }
-  8%,
-  34% {
-    opacity: 1;
-  }
-  44%,
-  100% {
-    opacity: 0;
-    transform: scale(1.14) translateY(-14px);
-  }
-}
-
 @media (max-width: 920px) {
   .site-header {
     padding: 14px 20px;
@@ -1023,10 +984,6 @@ h3 {
 
   .section {
     padding: 70px 0;
-  }
-
-  .movement-reel {
-    min-height: 520px;
   }
 
   .intro-grid,

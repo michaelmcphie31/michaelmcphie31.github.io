@@ -13,8 +13,13 @@ A fast static website for holistic coaching, pretzeling, massage, and recovery s
 - `css/styles.css`: shared responsive styling
 - `js/main.js`: mobile navigation, booking calendar, time selection, and Google Calendar handoff
 - `assets/images/`: optimized local images and logo assets
+- `assets/videos/workout-background.mp4`: optional homepage hero background video
 
 The booking form sends details to `imagin8it.home@gmail.com` through FormSubmit and opens a Google Calendar event template with the client and owner email included.
+
+## Hero Video
+
+Add a workout video at `assets/videos/workout-background.mp4` to make the homepage hero play video in the background. Until that file exists, the homepage uses `assets/images/brand-hero.webp` as the fallback background.
 
 ## Booking Availability
 
