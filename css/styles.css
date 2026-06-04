@@ -191,7 +191,7 @@ body:not(.home) .site-nav a[aria-current="page"] {
   height: 100%;
   filter: blur(6px) brightness(0.58) contrast(1.08) saturate(0.95);
   object-fit: cover;
-  object-position: center top;
+  object-position: center 24%;
   background: #050505;
   transform: scale(1.02) translateZ(0);
 }
