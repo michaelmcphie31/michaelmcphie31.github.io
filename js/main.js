@@ -27,9 +27,9 @@ syncHeader();
 const hero = document.querySelector(".hero");
 const heroVideo = document.querySelector("[data-hero-video]");
 const heroVideoBackdrop = document.querySelector("[data-hero-video-backdrop]");
-const heroVideoPath = "assets/videos/workout-background.mp4?v=20260603-15s";
+const heroVideoPath = "assets/videos/workout-background.mp4?v=20260603-forceplay";
 
-if (hero && heroVideo && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+if (hero && heroVideo) {
   if (heroVideoBackdrop) heroVideoBackdrop.src = heroVideoPath;
   heroVideo.src = heroVideoPath;
   heroVideo.addEventListener(
