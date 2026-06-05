@@ -552,6 +552,11 @@ h3 {
   color: rgba(255, 253, 248, 0.72);
 }
 
+.booking-alt-note a {
+  color: var(--gold);
+  font-weight: 900;
+}
+
 .calendar-panel {
   padding: 24px;
   border: 1px solid var(--soft-line);
@@ -664,6 +669,30 @@ h3 {
   display: grid;
   gap: 8px;
   font-weight: 850;
+}
+
+.form-callout {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid rgba(240, 90, 36, 0.28);
+  border-radius: var(--radius);
+  background: rgba(240, 90, 36, 0.08);
+}
+
+.form-callout[hidden] {
+  display: none;
+}
+
+.form-callout p {
+  margin: 0;
+  color: rgba(22, 23, 21, 0.68) !important;
+}
+
+.form-callout a {
+  width: fit-content;
+  color: var(--ember-dark);
+  font-weight: 900;
 }
 
 .contact-form input,
@@ -789,6 +818,142 @@ h3 {
   display: block;
   margin-top: 4px;
   color: rgba(22, 23, 21, 0.58);
+}
+
+.review-section-action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.review-star-hint {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: rgba(22, 23, 21, 0.64);
+  font-size: 0.92rem;
+  font-weight: 850;
+}
+
+.review-star-hint button,
+.review-stars button {
+  border: 0;
+  padding: 0 2px;
+  color: rgba(240, 90, 36, 0.42);
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.review-star-hint button:hover,
+.review-stars button:hover,
+.review-stars button.is-active {
+  color: var(--ember);
+}
+
+.submitted-testimonial-grid {
+  margin-bottom: 20px;
+}
+
+.submitted-testimonial-grid[hidden] {
+  display: none;
+}
+
+.floating-review-button {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 60;
+  display: grid;
+  gap: 3px;
+  min-width: 154px;
+  border: 1px solid rgba(255, 253, 248, 0.5);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--paper);
+  background: rgba(22, 23, 21, 0.9);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.floating-review-button span {
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+.review-dialog {
+  width: min(92vw, 520px);
+  border: 0;
+  border-radius: var(--radius);
+  padding: 0;
+  background: transparent;
+}
+
+.review-dialog::backdrop {
+  background: rgba(5, 5, 5, 0.68);
+}
+
+.review-form {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding: 30px;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.review-form h2 {
+  margin-bottom: 0;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+}
+
+.dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+.review-stars {
+  display: flex;
+  gap: 7px;
+}
+
+.review-stars button {
+  font-size: 2rem;
+}
+
+.review-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 850;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  color: var(--ink);
+  background: var(--paper);
 }
 
 .page-hero {
@@ -1054,6 +1219,14 @@ h3 {
   .hero-actions,
   .button {
     width: 100%;
+  }
+
+  .floating-review-button {
+    right: 14px;
+    bottom: 14px;
+    min-width: 136px;
+    padding: 9px 13px;
+    font-size: 0.86rem;
   }
 
   .service-card,

@@ -55,7 +55,7 @@ if (hero && heroVideo) {
 }
 
 const revealTargets = document.querySelectorAll(
-  ".section-heading, .intro-grid > *, .page-hero-grid > *, .split-copy, .image-panel, .values-grid article, .service-row, .price-card, .calendar-panel, .booking-form, .testimonial-card, .evidence-grid a"
+  ".section-heading, .intro-grid > *, .page-hero-grid > *, .split-copy, .image-panel, .values-grid article, .service-row, .price-card, .calendar-panel, .booking-form, .review-section-action, .testimonial-card, .submitted-testimonial-grid, .evidence-grid a"
 );
 
 if ("IntersectionObserver" in window) {
@@ -101,11 +101,15 @@ const calendarLinkInput = document.querySelector("[data-calendar-link-input]");
 const bookingStatus = document.querySelector("[data-booking-status]");
 const nextInput = document.querySelector("[data-next-input]");
 const subjectInput = document.querySelector("[data-subject-input]");
+const autoresponseInput = document.querySelector("[data-autoresponse-input]");
+const automationKeyInput = document.querySelector("[data-automation-key-input]");
 const bookingTitle = document.querySelector("[data-booking-title]");
 const bookingSummary = document.querySelector("[data-booking-summary]");
 const submitButton = document.querySelector("[data-submit-button]");
 const serviceSelect = document.querySelector("[data-service-select]");
 const sessionOptionSelect = document.querySelector("[data-session-option-select]");
+const sessionOptionField = document.querySelector("[data-session-option-field]");
+const coachingApplication = document.querySelector("[data-coaching-application]");
 const serviceTriggers = document.querySelectorAll("[data-book-service]");
 
 const ownerEmail = "imagin8it.home@gmail.com";
@@ -150,6 +154,12 @@ const serviceConfigs = {
     subject: "New Body of Works Fitness Coaching Call Request",
     eventTitle: "Body of Works Fitness Free Coaching Call",
     details: "Free coaching call with Body of Works Fitness.",
+    automationKey: "coaching-call",
+    autoresponse:
+      "Thank you for requesting a free 1:1 coaching call with Body of Works Fitness. Please complete the coaching application at https://form.typeform.com/to/nYSQBHoF before your call so I can review your goals in advance.",
+    applicationUrl: "https://form.typeform.com/to/nYSQBHoF",
+    showApplication: true,
+    showSessionOptions: false,
     leadHours: 72,
     schedule: weekdayCallSchedule,
     options: [
@@ -168,12 +178,17 @@ const serviceConfigs = {
     subject: "New Body of Works Fitness Pretzeling Request",
     eventTitle: "Body of Works Fitness Pretzeling Session",
     details: "Pretzeling session with Body of Works Fitness.",
+    automationKey: "pretzeling-session",
+    autoresponse:
+      "Thank you for requesting a Pretzeling session with Body of Works Fitness. Your request was received, and the calendar event link on the booking page can be used to add the session to your calendar.",
+    showApplication: false,
+    showSessionOptions: true,
     leadHours: 0,
     schedule: weekendServiceSchedule,
     options: [
-      { value: "Pretzeling - 30 min ($75)", label: "Pretzeling - 30 min ($75)", duration: 30 },
-      { value: "Pretzeling - 45 min ($112.50)", label: "Pretzeling - 45 min ($112.50)", duration: 45 },
-      { value: "Pretzeling - 60 min ($150)", label: "Pretzeling - 60 min ($150)", duration: 60 },
+      { value: "Pretzeling - 30 min ($60)", label: "Pretzeling - 30 min ($60)", duration: 30 },
+      { value: "Pretzeling - 45 min ($90)", label: "Pretzeling - 45 min ($90)", duration: 45 },
+      { value: "Pretzeling - 60 min ($120)", label: "Pretzeling - 60 min ($120)", duration: 60 },
     ],
   },
   Massage: {
@@ -184,6 +199,11 @@ const serviceConfigs = {
     subject: "New Body of Works Fitness Massage Request",
     eventTitle: "Body of Works Fitness Massage Session",
     details: "Massage session with Body of Works Fitness.",
+    automationKey: "massage-intake-needed",
+    autoresponse:
+      "Thank you for requesting a massage session with Body of Works Fitness. Your request was received. If intake paperwork is needed, it will be sent to this email.",
+    showApplication: false,
+    showSessionOptions: true,
     leadHours: 0,
     schedule: weekendServiceSchedule,
     options: [
@@ -326,7 +346,18 @@ const calendarEventTitle = () => {
   return `${currentConfig().eventTitle}: ${option.value}`;
 };
 
-const calendarEventDetails = () => `${currentConfig().details} Requested option: ${currentOption().value}.`;
+const clientEmailValue = () => {
+  const emailInput = bookingForm?.querySelector('input[name="email"]');
+  return emailInput ? emailInput.value.trim() : "";
+};
+
+const calendarAttendees = () => [ownerEmail, clientEmailValue()].filter(Boolean).join(",");
+
+const calendarEventDetails = () => {
+  const config = currentConfig();
+  const applicationLine = config.applicationUrl ? ` Coaching application: ${config.applicationUrl}.` : "";
+  return `${config.details} Requested option: ${currentOption().value}.${applicationLine}`;
+};
 
 const formatGoogleDatesForSlot = () => {
   const option = currentOption();
@@ -342,7 +373,7 @@ const buildCalendarLink = () => {
     text: calendarEventTitle(),
     dates: formatGoogleDatesForSlot(),
     details: calendarEventDetails(),
-    add: ownerEmail,
+    add: calendarAttendees(),
     ctz: serviceTimeZone,
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
@@ -365,6 +396,11 @@ const updateBookingCopy = () => {
   if (bookingSummary) bookingSummary.textContent = config.summary;
   if (submitButton) submitButton.textContent = config.submitLabel;
   if (subjectInput) subjectInput.value = config.subject;
+  if (autoresponseInput) autoresponseInput.value = config.autoresponse || "";
+  if (automationKeyInput) automationKeyInput.value = config.automationKey || "";
+  if (sessionOptionField) sessionOptionField.hidden = !config.showSessionOptions;
+  if (sessionOptionSelect) sessionOptionSelect.disabled = !config.showSessionOptions;
+  if (coachingApplication) coachingApplication.hidden = !config.showApplication;
 };
 
 const populateSessionOptions = () => {
@@ -386,6 +422,7 @@ const updateHiddenFields = () => {
   if (selectedDateInput) selectedDateInput.value = selectedDate ? prettyDate(selectedDate) : "";
   if (selectedTimeInput) selectedTimeInput.value = selectedTime ? `${selectedTime} CT (${currentOption().value})` : "";
   if (calendarLinkInput) calendarLinkInput.value = buildCalendarLink();
+  if (automationKeyInput) automationKeyInput.value = currentConfig().automationKey || "";
   if (nextInput) {
     const thankYouUrl = new URL("thank-you.html", window.location.href);
     nextInput.value = thankYouUrl.href;
@@ -549,3 +586,125 @@ bookingForm?.addEventListener("submit", (event) => {
 if (calendarGrid) {
   refreshBooking();
 }
+
+const reviewStorageKey = "body-of-works-fitness-reviews-v1";
+const reviewDialog = document.querySelector("[data-review-dialog]");
+const reviewForm = document.querySelector("[data-review-form]");
+const reviewRatingInput = document.querySelector("[data-review-rating-input]");
+const reviewSelectedRating = document.querySelector("[data-review-selected-rating]");
+const reviewStatus = document.querySelector("[data-review-status]");
+const reviewList = document.querySelector("[data-review-list]");
+const reviewOpenButtons = document.querySelectorAll("[data-review-open]");
+const reviewClose = document.querySelector("[data-review-close]");
+const reviewRatingButtons = document.querySelectorAll("[data-review-rating-button]");
+
+const escapeHtml = (value) =>
+  String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+const savedReviews = () => {
+  try {
+    return JSON.parse(window.localStorage.getItem(reviewStorageKey)) || [];
+  } catch {
+    return [];
+  }
+};
+
+const persistReview = (review) => {
+  try {
+    const nextReviews = [review, ...savedReviews()].slice(0, 12);
+    window.localStorage.setItem(reviewStorageKey, JSON.stringify(nextReviews));
+  } catch {
+    // Reviews still submit by email even if browser storage is unavailable.
+  }
+};
+
+const renderSubmittedReviews = () => {
+  if (!reviewList) return;
+  const reviews = savedReviews();
+  reviewList.hidden = !reviews.length;
+  reviewList.innerHTML = reviews
+    .map(
+      (review) => `
+        <article class="testimonial-card submitted-testimonial-card">
+          <div class="testimonial-rating" aria-label="${review.rating} out of 5 stars">
+            <span>${"★".repeat(review.rating)}</span>
+            <small>${Number(review.rating).toFixed(1)}</small>
+          </div>
+          <p>"${escapeHtml(review.text)}"</p>
+          <div>
+            <strong>${escapeHtml(review.name)}</strong>
+            <span>${escapeHtml(review.service)} / Site review</span>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+};
+
+const setReviewRating = (rating) => {
+  const safeRating = Math.max(1, Math.min(5, Number(rating) || 5));
+  if (reviewRatingInput) reviewRatingInput.value = String(safeRating);
+  if (reviewSelectedRating) reviewSelectedRating.textContent = String(safeRating);
+  reviewRatingButtons.forEach((button) => {
+    const buttonRating = Number(button.getAttribute("data-review-rating-button") || 0);
+    button.classList.toggle("is-active", buttonRating <= safeRating);
+  });
+};
+
+const openReviewDialog = (rating = 5) => {
+  if (!reviewDialog || !reviewForm) return;
+  setReviewRating(rating);
+  if (reviewStatus) reviewStatus.textContent = "";
+  if (typeof reviewDialog.showModal === "function") {
+    reviewDialog.showModal();
+  } else {
+    reviewDialog.setAttribute("open", "");
+  }
+  window.setTimeout(() => reviewForm.elements.name?.focus(), 60);
+};
+
+reviewOpenButtons.forEach((button) => {
+  button.addEventListener("click", () => openReviewDialog(button.getAttribute("data-review-rating") || 5));
+});
+
+reviewRatingButtons.forEach((button) => {
+  button.addEventListener("click", () => setReviewRating(button.getAttribute("data-review-rating-button") || 5));
+});
+
+reviewClose?.addEventListener("click", () => {
+  reviewDialog?.close();
+});
+
+reviewForm?.addEventListener("submit", () => {
+  const formData = new FormData(reviewForm);
+  const name = String(formData.get("name") || "").trim();
+  const text = String(formData.get("review") || "").trim();
+  const service = String(formData.get("service") || "General experience").trim();
+  const rating = Math.max(1, Math.min(5, Number(formData.get("rating") || 5)));
+
+  if (!name || !text) return;
+
+  persistReview({
+    name,
+    text,
+    service,
+    rating,
+    createdAt: new Date().toISOString(),
+  });
+
+  renderSubmittedReviews();
+  if (reviewStatus) reviewStatus.textContent = "Thank you. Your review has been submitted.";
+  window.setTimeout(() => {
+    reviewDialog?.close();
+    reviewForm.reset();
+    setReviewRating(5);
+  }, 350);
+});
+
+setReviewRating(5);
+renderSubmittedReviews();

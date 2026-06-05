@@ -11,11 +11,14 @@ A fast static website for holistic coaching, pretzeling, massage, and recovery s
 ## Structure
 
 - `css/styles.css`: shared responsive styling
-- `js/main.js`: mobile navigation, booking calendar, time selection, and Google Calendar handoff
+- `js/main.js`: mobile navigation, booking calendar, time selection, review dialog, and Google Calendar handoff
 - `assets/images/`: optimized local images and logo assets
 - `assets/videos/workout-background.mp4`: optional homepage hero background video
+- `integrations/massage-intake-forwarder.gs`: Google Apps Script template for massage intake emails
 
-The booking form sends details to `imagin8it.home@gmail.com` through FormSubmit and opens a Google Calendar event template with the client and owner email included.
+The booking form sends free 1:1 coaching call details to `imagin8it.home@gmail.com` through FormSubmit and opens a Google Calendar event template with the client and owner email included. Coaching call requests also point clients to the 1:1 coaching application at `https://form.typeform.com/to/nYSQBHoF`.
+
+Reviews can be submitted from the floating "Leave a Review" button on the Home and About pages. New reviews display immediately for that visitor and are also submitted by email through FormSubmit. A shared/live review wall requires a backend such as Google Apps Script + Google Sheets or another review platform endpoint.
 
 ## Hero Video
 
@@ -25,7 +28,13 @@ Add a workout video at `assets/videos/workout-background.mp4` to make the homepa
 
 Free coaching calls are 30 minutes and must be booked at least 72 hours in advance. Availability is Monday through Friday, 5:00 AM to 8:30 AM CT and 3:00 PM to 6:00 PM CT.
 
-Pretzeling and massage sessions can be booked separately through the same calendar form. Weekend service availability is Saturday, 8:00 AM to 12:00 PM CT, and Sunday, 1:00 PM to 5:00 PM CT.
+Pretzeling and massage sessions book through Setmore: `https://michaeli22x.setmore.com/michael`. This keeps hands-on service booking aligned with the same Setmore/Gmail intake flow used from Instagram.
+
+Pretzeling is priced at `$2/min`.
+
+## Massage Intake Automation
+
+Use `integrations/massage-intake-forwarder.gs` in Google Apps Script if you want Gmail to watch for website massage request emails and send client intake forms automatically. Replace `PASTE_CLIENT_INTAKE_FORM_URL_HERE`, then run `installMassageIntakeTrigger()` once inside Apps Script.
 
 ## Social Links
 
