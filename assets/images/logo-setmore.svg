@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 44" role="img" aria-labelledby="title">
+  <title id="title">Setmore</title>
+  <rect width="176" height="44" rx="22" fill="#ffffff"/>
+  <circle cx="26" cy="22" r="14" fill="#f6b800"/>
+  <path d="M19 22.5 23.5 27 33 17.5" fill="none" stroke="#111111" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="48" y="28" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800" letter-spacing="0">Setmore</text>
+</svg>
