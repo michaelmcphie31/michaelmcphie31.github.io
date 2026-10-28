@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://bodyofworksfitness.com/" />
     <link rel="preload" href="assets/images/brand-hero.webp" as="image" />
     <link rel="icon" href="assets/images/body-of-work-logo-small.png" type="image/png" />
-    <link rel="stylesheet" href="css/styles.css?v=20261027-reviews-connected" />
+    <link rel="stylesheet" href="css/styles.css?v=20261028-refresh-4" />
   </head>
   <body class="home">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -20,16 +20,17 @@
         <img class="brand-logo" src="assets/images/body-of-work-logo-small.png" alt="" />
         <span>Body of Works Fitness</span>
       </a>
-      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
         <span></span>
         <span></span>
       </button>
-      <nav class="site-nav" data-nav>
+      <nav class="site-nav" id="primary-navigation" aria-label="Main navigation" data-nav>
         <a href="index.html" aria-current="page">Home</a>
         <a href="about.html">About</a>
         <a href="#services">Services</a>
         <a href="#pricing">Pricing</a>
         <a href="resources.html">Resources</a>
+        <a class="specials-nav-link" href="promotions.html" data-promo-open>Specials</a>
         <a class="nav-cta" href="#book-call" data-book-service="Massage">Book an Appointment</a>
       </nav>
     </header>
@@ -38,45 +39,40 @@
       <section class="hero brand-hero">
         <div class="hero-media" aria-hidden="true"></div>
         <video
-          class="hero-video-backdrop"
-          data-hero-video-backdrop
-          poster="assets/images/brand-hero.webp"
-          autoplay
-          muted
-          loop
-          playsinline
-          aria-hidden="true"
-        >
-          <source src="assets/videos/workout-background.mp4?v=20261004-reviews" type="video/mp4" />
-        </video>
-        <video
           class="hero-video"
           data-hero-video
           poster="assets/images/brand-hero.webp"
-          autoplay
+          preload="none"
           muted
           loop
           playsinline
           aria-hidden="true"
         >
-          <source src="assets/videos/workout-background.mp4?v=20261004-reviews" type="video/mp4" />
+          <source data-src="assets/videos/workout-background.mp4?v=20261004-reviews" type="video/mp4" />
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content shell">
           <div class="hero-lockup">
             <img src="assets/images/body-of-work-logo-small.png" alt="Body of Works Fitness logo" />
-            <p class="eyebrow">All-natural holistic performance</p>
+            <p class="eyebrow">Massage · Training · Coaching<br />Moore, Oklahoma</p>
           </div>
           <h1>Strength. Mobility. Recovery. Longevity.</h1>
           <p>
-            Coaching, pretzeling, massage, and practical recovery systems for people who want to
-            move better, train smarter, and age with power.
+            Personalized massage, hands-on recovery, and coaching to help you feel better,
+            move more comfortably, and build lasting strength.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#book-call" data-book-service="1:1 Coaching">Book Free Coaching Call</a>
+            <a class="button button-primary" href="#book-call" data-book-service="Massage">Book a Massage</a>
+            <a class="button hero-secondary" href="#book-call" data-book-service="1:1 Coaching">Explore 1:1 Coaching</a>
           </div>
+          <p class="hero-detail">One-on-one care · Straightforward prices · Secure online scheduling</p>
         </div>
+        <button class="hero-motion-toggle" type="button" data-hero-motion hidden>Pause background video</button>
       </section>
+
+      <aside class="specials-band" aria-label="Current specials">
+        <div class="shell specials-band-inner"><div><span class="specials-pill">A little extra for you</span><p>First massage? <strong>$1 per minute.</strong> More ways to save inside.</p></div><a class="button button-primary" href="promotions.html" data-promo-open>See the specials <span aria-hidden="true">↗</span></a></div>
+      </aside>
 
       <section class="section intro-band">
         <div class="shell intro-grid">
@@ -198,6 +194,7 @@
           <div>
             <p class="eyebrow">Pricing</p>
             <h2>Clear prices. A session that fits.</h2>
+            <p>These are standard session prices. <a class="text-link" href="promotions.html">Explore current specials</a> for first-time rates, bundles, and rewards.</p>
             <p>Compare session lengths and prices below. For personalized coaching, start with a free 30-minute call to discuss your goals and the right fit.</p>
             <a class="button button-primary" href="#book-call" data-book-service="1:1 Coaching">Book Free Coaching Call</a>
           </div>
@@ -241,6 +238,7 @@
       </section>
 
       <section class="section booking-section" id="book-call">
+        <ol class="shell booking-steps" aria-label="How online booking works"><li><span>1</span> Choose your session</li><li><span>2</span> Find a time in Acuity</li><li><span>3</span> Confirm securely</li></ol>
         <div class="shell section-heading">
           <p class="eyebrow">Book an appointment</p>
           <h2 data-booking-title>Book a massage appointment.</h2>
@@ -251,6 +249,7 @@
         <div class="shell booking-grid">
           <div class="booking-choices">
             <h3>Choose your service</h3>
+            <p class="form-note">Planning more visits? <a class="text-link" href="promotions.html#massage-bundles">Explore three-session massage packs</a>.</p>
             <input type="hidden" value="Massage" data-service-select />
             <div class="booking-service-picker" aria-label="Choose a service">
               <button type="button" data-service-choice="1:1 Coaching" aria-pressed="false">1:1 Coaching</button>
@@ -274,15 +273,17 @@
           </div>
           <div class="booking-handoff">
             <section class="request-summary" aria-label="Your selected session" aria-live="polite">
-              <h3>Your session</h3>
+              <p class="eyebrow">Your next step</p>
+              <h3>Your session, at a glance.</h3>
               <dl>
                 <div><dt>Service</dt><dd data-request-service>Choose a session</dd></div>
                 <div><dt>Duration</dt><dd data-request-duration>—</dd></div>
-                <div><dt>Session price</dt><dd data-request-price>—</dd></div>
+                <div><dt>Standard session price</dt><dd data-request-price>—</dd></div>
                 <div data-payment-summary hidden><dt>Due at booking</dt><dd>$0</dd></div>
-                <div data-payment-summary hidden><dt>Due at service</dt><dd data-payment-balance>—</dd></div>
+                <div data-payment-summary hidden><dt>Standard balance at service</dt><dd data-payment-balance>—</dd></div>
               </dl>
             </section>
+            <p class="booking-offer-note"><strong>Using a special?</strong> Contact Mike before booking to arrange first-time pricing or bonus time. This single-session menu shows standard rates. Prepaid package codes are applied in Acuity, where the final balance is shown. <a href="promotions.html">View offers and contact options</a>.</p>
             <p>Choose your date and time, enter your contact details, and review your appointment in Acuity.</p>
             <a class="button button-primary" data-scheduler-link aria-disabled="true" tabindex="-1">Check availability</a>
             <p class="form-note">You will continue to Acuity Scheduling to finish booking.</p>
@@ -323,7 +324,8 @@
       <section class="section testimonials-section" id="testimonials">
         <div class="shell section-heading">
           <p class="eyebrow">Testimonials</p>
-          <h2>Clients come for relief. They stay for the way their body starts working again.</h2>
+          <h2>Real clients. Their own words.</h2>
+          <p>Read client experiences or share your own. Every rating is welcome.</p>
           <div class="review-section-action">
             <button class="button button-secondary" type="button" data-review-open>Leave a Review</button>
             <div class="review-star-hint" aria-label="Click a star to leave a review">
@@ -415,37 +417,12 @@
               <span>Setmore review</span>
             </div>
           </article>
-          <article class="testimonial-card">
-            <div class="testimonial-rating" aria-label="5 out of 5 stars">
-              <span>★★★★★</span>
-              <small>5.0</small>
-            </div>
-            <p>
-              "I added muscle, moved better, and finally felt athletic again. The coaching gave me
-              structure without making my whole life revolve around the gym."
-            </p>
-            <div>
-              <strong>Marcus H.</strong>
-              <span>1:1 coaching client</span>
-            </div>
-          </article>
-          <article class="testimonial-card">
-            <div class="testimonial-rating" aria-label="5 out of 5 stars">
-              <span>★★★★★</span>
-              <small>5.0</small>
-            </div>
-            <p>
-              "The sports massage before my event helped me feel loose without feeling drained.
-              Post-event recovery was faster than usual."
-            </p>
-            <div>
-              <strong>Alex P.</strong>
-              <span>Cyclist</span>
-            </div>
-          </article>
         </div>
       </section>
 
+      <section class="section contact-section" id="contact">
+        <div class="shell contact-grid"><div><p class="eyebrow">Let’s plan your visit</p><h2>Good care starts with a conversation.</h2><p>Questions about a service, bonus time, a bundle, or a referral reward? Reach out before booking so we can arrange the right session.</p><a class="button button-primary" href="mailto:imagin8it.home@gmail.com">Email Mike</a></div><address><strong>Body of Works Fitness</strong><p>9209 Winfield Lane<br />Moore, OK 73160</p><p><a href="mailto:imagin8it.home@gmail.com">imagin8it.home@gmail.com</a></p><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=9209+Winfield+Lane+Moore+OK+73160" target="_blank" rel="noopener noreferrer">Get directions ↗</a><p class="form-note">By appointment. View availability in Acuity.</p></address></div>
+      </section>
     </main>
 
     <button class="floating-review-button" type="button" data-review-open aria-label="Leave a review">
@@ -484,10 +461,11 @@
         </label>
         <label>
           Review
-          <textarea name="review" rows="4" maxlength="2000" placeholder="Tell others about your experience" required></textarea>
+          <textarea name="review" rows="4" maxlength="1800" placeholder="Tell others about your experience" aria-describedby="review-offer-note" required></textarea>
         </label>
         <label class="review-honeypot" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
-        <p class="form-note" id="review-public-note">Your name, rating, service, and review will be public. Please leave out private health details or contact information. Reviews publish automatically; no email verification is required.</p>
+        <p class="form-note" id="review-public-note">Your name, rating, service, and review will be public. Please leave out private health details or contact information. Reviews publish automatically; no email verification is required. Mike may receive an informational notice after publication.</p>
+        <p class="review-offer-note" id="review-offer-note">Honest reviews of every rating are eligible for 30 additional minutes of table massage. We add a business disclosure of this offer to your public review. One promotion per session. Arrange bonus appointment time with Mike before booking.</p>
         <label class="review-consent"><input name="consent" type="checkbox" required /> I agree to publish my review and public name on this website.</label>
         <button class="button button-primary" type="submit" data-review-submit disabled>Publish Review</button>
         <p class="form-note" role="status" aria-live="polite" aria-atomic="true" data-review-status>Online review submission is being connected. Please try again later.</p>
@@ -509,6 +487,7 @@
             <a href="about.html">About</a>
             <a href="#pricing">Pricing</a>
             <a href="resources.html">Resources &amp; Guides</a>
+            <a href="promotions.html">Specials</a>
             <a href="#book-call">Book</a>
           </div>
           <div class="social-links" aria-label="Social links">
@@ -531,9 +510,12 @@
         <span>&copy; 2026 Body of Works Fitness. All rights reserved.</span>
       </div>
     </footer>
-    <script src="js/booking-model.js?v=20261027-reviews-connected"></script>
-    <script src="js/main.js?v=20261027-reviews-connected"></script>
-    <script src="js/review-config.js?v=20261027-reviews-connected"></script>
-    <script src="js/reviews.js?v=20261027-reviews-connected"></script>
+    <script src="js/booking-model.js?v=20261028-refresh-4"></script>
+    <script src="js/main.js?v=20261028-refresh-4"></script>
+    <script src="js/review-config.js?v=20261028-refresh-4"></script>
+    <script src="js/review-incentive.js?v=20261028-refresh-4"></script>
+    <script src="js/reviews.js?v=20261028-refresh-4"></script>
+    <script src="js/promotions-data.js?v=20261028-refresh-4"></script>
+    <script src="js/promotions.js?v=20261028-refresh-4"></script>
   </body>
 </html>
