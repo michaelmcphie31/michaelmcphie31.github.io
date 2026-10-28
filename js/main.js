@@ -30,72 +30,45 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+document.addEventListener("click", (event) => {
+  if (toggle?.getAttribute("aria-expanded") === "true" && !header.contains(event.target)) toggle.click();
+});
 window.addEventListener("scroll", syncHeader, { passive: true });
 syncHeader();
 
+// Respect motion/data preferences and use one video, with an explicit pause control.
 const hero = document.querySelector(".hero");
 const heroVideo = document.querySelector("[data-hero-video]");
-const heroVideoBackdrop = document.querySelector("[data-hero-video-backdrop]");
-const heroVideoPath = "assets/videos/workout-background.mp4?v=20261004-reviews";
-
+const motionToggle = document.querySelector("[data-hero-motion]");
+const motionPreference = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+const mobileMotionPreference = window.matchMedia?.("(max-width: 620px)");
 if (hero && heroVideo) {
-  if (heroVideoBackdrop) heroVideoBackdrop.src = heroVideoPath;
-  heroVideo.src = heroVideoPath;
-  heroVideo.addEventListener(
-    "canplay",
-    () => {
-      hero.classList.add("has-video");
-      heroVideoBackdrop?.play().catch(() => {});
-      heroVideo.play().catch(() => {});
-    },
-    { once: true }
-  );
-  heroVideo.addEventListener(
-    "error",
-    () => {
-      hero.classList.remove("has-video");
-      heroVideo.removeAttribute("src");
-      heroVideoBackdrop?.removeAttribute("src");
-    },
-    { once: true }
-  );
-  heroVideoBackdrop?.load();
-  heroVideo.load();
-}
-
-const revealTargets = document.querySelectorAll(
-  ".section-heading, .intro-grid > *, .page-hero-grid > *, .split-copy, .image-panel, .values-grid article, .service-row, .price-card, .review-section-action, .testimonial-card, .submitted-testimonial-grid, .guide-card, .evidence-grid a, .resources-cta"
-);
-
-if ("IntersectionObserver" in window) {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
-  );
-
-  revealTargets.forEach((target, index) => {
-    target.classList.add("reveal");
-    if (target.classList.contains("service-row") && index % 2 === 0) target.classList.add("reveal-from-left");
-    if (target.classList.contains("service-row") && index % 2 !== 0) target.classList.add("reveal-from-right");
-    if (target.classList.contains("split-copy")) target.classList.add("reveal-from-left");
-    if (target.classList.contains("image-panel")) target.classList.add("reveal-from-right");
-    if (target.matches(".page-hero-grid > :first-child")) target.classList.add("reveal-from-left");
-    if (target.matches(".page-hero-grid > p")) target.classList.add("reveal-from-right");
-    if (target.matches(".values-grid article")) {
-      target.style.transitionDelay = `${Math.min(index % 3, 2) * 90}ms`;
-    }
-    revealObserver.observe(target);
+  const stopMotion = () => {
+    heroVideo.pause();
+    hero.classList.remove("has-video");
+    if (motionToggle) motionToggle.hidden = true;
+  };
+  const startMotion = () => {
+    if (motionPreference?.matches || window.navigator?.connection?.saveData || window.innerWidth <= 620) { stopMotion(); return; }
+    const source = heroVideo.querySelector("source[data-src]");
+    if (source && !source.src) { source.src = source.dataset.src; heroVideo.load(); }
+    heroVideo.play().catch(stopMotion);
+  };
+  heroVideo.addEventListener("playing", () => {
+    hero.classList.add("has-video");
+    if (motionToggle) { motionToggle.hidden = false; motionToggle.textContent = "Pause background video"; motionToggle.setAttribute("aria-pressed", "false"); }
   });
-} else {
-  revealTargets.forEach((target) => target.classList.add("is-visible"));
+  heroVideo.addEventListener("error", stopMotion);
+  motionToggle?.addEventListener("click", () => {
+    if (heroVideo.paused) startMotion();
+    else { heroVideo.pause(); motionToggle.textContent = "Play background video"; motionToggle.setAttribute("aria-pressed", "true"); }
+  });
+  motionPreference?.addEventListener("change", () => motionPreference.matches ? stopMotion() : startMotion());
+  mobileMotionPreference?.addEventListener("change", () => mobileMotionPreference.matches ? stopMotion() : startMotion());
+  startMotion();
 }
+
+// Keep content visible immediately; no scroll-triggered reveal delays.
 
 const bookingModel = window.BodyOfWorksBooking;
 const bookingSection = document.querySelector("#book-call");
