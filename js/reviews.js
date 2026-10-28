@@ -14,6 +14,7 @@
   const ratingInput = document.querySelector("[data-review-rating-input]");
   const selectedRating = document.querySelector("[data-review-selected-rating]");
   const stars = [...document.querySelectorAll("[data-review-rating-button]")];
+  const incentive = window.BOWReviewIncentive;
   const reviews = new Map();
   let nextCursor = null;
   let pending = null;
@@ -100,7 +101,9 @@
       rating.append(symbols, element("small", "", review.rating.toFixed(1)));
       const byline = element("div");
       byline.append(element("strong", "", review.name), element("span", "", `${review.service} / Site review`));
-      card.append(rating, element("p", "", `“${review.text}”`), byline);
+      const displayed = incentive ? incentive.decode(review.text) : { text: review.text, disclosure: "" };
+      card.append(rating, element("p", "", `“${displayed.text}”`), byline);
+      if (displayed.disclosure) card.append(element("p", "review-incentive-disclosure", displayed.disclosure));
       return card;
     });
     list.replaceChildren(...cards);
@@ -180,6 +183,10 @@
     if (!payload.name || !payload.review || payload.name.length > 50 || payload.review.length > 2000 || !services.includes(payload.service) || !Number.isInteger(payload.rating) || payload.rating < 1 || payload.rating > 5 || data.get("website")) {
       status.textContent = "Please enter a name, a review, and a rating from 1 to 5.";
       return;
+    }
+    if (incentive) {
+      if (payload.review.length > incentive.maxTextLength) { status.textContent = "Please keep your review to 1,800 characters."; return; }
+      payload.review = incentive.encode(payload.review);
     }
     const fingerprint = JSON.stringify(payload);
     if (!pending || pending.fingerprint !== fingerprint) pending = { id: uuid(), fingerprint };
