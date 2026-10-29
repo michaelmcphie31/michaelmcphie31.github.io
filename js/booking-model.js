@@ -7,7 +7,7 @@
   // Public scheduling identifiers, never API keys or access to the owner's calendar.
   const ownerId = "40726953";
   const timeZone = "America/Chicago";
-  const policy = Object.freeze({"handsOnLocation": "9209 Winfield Lane, Moore, OK 73160", "minimumNoticeHours": 48, "maximumAdvanceDays": 60, "cancellationNoticeHours": 24, "lateCancellationFeePercent": 25, "rescheduleNoticeHours": 8, "onlineChangeCutoffHours": 8});
+  const policy = Object.freeze({"minimumNoticeHours": 48, "maximumAdvanceDays": 60, "cancellationNoticeHours": 24, "lateCancellationFeePercent": 25, "rescheduleNoticeHours": 8, "onlineChangeCutoffHours": 8});
   const policyText = "Please cancel at least 24 hours before your scheduled appointment. Cancellations with less than 24 hours' notice are subject to a fee equal to 25% of the scheduled session price. Rescheduling is permitted until 8 hours before the scheduled start time. To cancel with less than 8 hours' notice, please reply to your booking confirmation email.";
   // Owner-approved native rules and mandatory Stripe card-entry step were verified.
   // Actual card saving and later charges still require separately authorized tests.
@@ -33,6 +33,8 @@
     Pretzeling: Object.freeze({ options: Object.freeze([
       option("pretzeling-15", "Pretzeling", 15, 30, "99859393"),
       option("pretzeling-30", "Pretzeling", 30, 60, "99859421"),
+      option("pretzeling-45", "Pretzeling", 45, 90, "99950537"),
+      option("pretzeling-60", "Pretzeling", 60, 120, "99950556"),
     ]) }),
     Massage: Object.freeze({ options: Object.freeze([
       option("swedish-60", "Classic Swedish", 60, 75, "99859464"),
