@@ -1918,3 +1918,14 @@ h2 { line-height: 1.12; }
 .bundle-card .button:disabled { cursor: default; opacity: 1; color: #58634e; border-color: #bac4ad; background: #eef1e7; }
 @media (max-width: 1024px) { .bundles-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 620px) { .bundles-grid { grid-template-columns: 1fr; } }
+
+.mixed-builder { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; margin-block:28px; }
+.mixed-fields { display:grid; align-content:start; gap:12px; min-width:0; }
+.mixed-fields label { font-weight:700; }
+.mixed-fields select { width:100%; min-width:0; padding:14px 10px; font:inherit; border:1px solid var(--line); border-radius:8px; background:var(--paper); color:var(--ink); }
+.mixed-totals { margin-block:24px; }
+.mixed-totals div { display:flex; justify-content:space-between; gap:12px; margin-block:12px; }
+.mixed-totals dd { margin:0; font-weight:700; white-space:nowrap; }
+.mixed-totals div:last-child { border-top:1px solid var(--line); padding-top:14px; font-size:1.2rem; }
+[data-mixed-request][hidden] { display:none; }
+@media(max-width:720px) { .mixed-builder { grid-template-columns:1fr; } }
