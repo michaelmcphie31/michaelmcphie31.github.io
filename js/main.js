@@ -140,10 +140,8 @@ const renderBooking = () => {
   if (sessionOptionField) sessionOptionField.hidden = currentOptions().length === 1;
   if (coachingApplication) coachingApplication.hidden = service !== "1:1 Coaching";
   const locationNote = document.querySelector("[data-booking-location]");
-  const locationAddress = document.querySelector("[data-location-address]");
   const policyNote = document.querySelector("[data-booking-policy]");
-  if (locationNote) locationNote.hidden = service === "1:1 Coaching";
-  if (locationAddress) locationAddress.textContent = bookingModel.policy.handsOnLocation;
+  if (locationNote) locationNote.hidden = !["Massage", "Chair Massage", "Pretzeling"].includes(service);
   if (policyNote) policyNote.textContent = bookingModel.policyText;
   const paymentNote = document.querySelector("[data-payment-note]");
   const showPaymentNote = bookingModel.payments.active && selected && selected.price > 0;

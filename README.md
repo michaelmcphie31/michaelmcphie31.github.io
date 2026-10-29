@@ -14,7 +14,7 @@ Baseline tag: `before-refresh-4-2026-10-28`; source `3c627dcc57eca470481c1494163
 
 ## Refresh 3 production background
 
-This development branch contains the **Refresh 3 implementation and Acuity Starter setup**. The service/pricing pages and booking scripts were confirmed on the live site on October 28; the live review connection was published and verified on October 28 via pull request #1 (merge e2778af). Fifteen approved service/duration choices are private in Acuity and available by direct link. Refresh 3 adds In-Person Training, Chair Massage, individual photo cards, and expanded descriptions. Do not merge/push to the Pages publishing branch, purchase a subscription, publish the booking links, or activate payments without owner approval.
+This development branch contains the **Refresh 3 implementation and Acuity Starter setup**. The service/pricing pages and booking scripts were confirmed on the live site on October 28; the live review connection was published and verified on October 28 via pull request #1 (merge e2778af). Seventeen approved service/duration choices are private in Acuity and available by direct link. Refresh 3 adds In-Person Training, Chair Massage, individual photo cards, and expanded descriptions. Do not merge/push to the Pages publishing branch, purchase a subscription, publish the booking links, or activate payments without owner approval.
 
 The owner approved **Stripe with a card on file and payment collected later**, personally connected Stripe, and authorized the native setup. The fourteen paid types require a saved card with full advance payment off; the free coaching call remains exempt. The payment/cancellation authorization form is required only for paid types. The static website never collects card details and contains no Stripe secret key or OAuth credentials.
 
@@ -42,19 +42,19 @@ One practitioner calendar serves all appointment types. Coaching has its own ava
 
 ## Approved offerings and scheduling
 
-Free coaching call: 30 minutes. In-Person Training: 30/$30, 60/$60, 90/$90, or 120/$120 ($1/min). Pretzeling: 15 minutes/$30 or 30 minutes/$60. Swedish: 60/$75 or 90/$115. Therapeutic: 60/$90 or 90/$135. Sports: 60/$100 or 90/$150. Chair Massage: 15/$30 or 30/$60 ($2/min). Chair-massage events are quoted separately based on head count; individual-session prices do not determine an event total.
+Free coaching call: 30 minutes. In-Person Training: 30/$30, 60/$60, 90/$90, or 120/$120 ($1/min). Pretzeling: 15/$30, 30/$60, 45/$90 or 60 minutes/$120. Swedish: 60/$75 or 90/$115. Therapeutic: 60/$90 or 90/$135. Sports: 60/$100 or 90/$150. Chair Massage: 15/$30 or 30/$60 ($2/min). Chair-massage events are quoted separately based on head count; individual-session prices do not determine an event total.
 
 Coaching hours: Mon–Fri 7 AM–7 PM and Sat 1–5 PM. No Sunday coaching.
 
 In-person hours retained: Mon–Fri 3–6 PM, Sat 8 AM–noon, Sun 1–5 PM. All hours America/Chicago. Minimum booking notice: 48 hours. Training reserves **30 minutes after** the advertised session; massage, Chair Massage, and Pretzeling reserve **15 minutes after**. Acuity requires this padding to fit within availability. For a 3–6 PM window, a 120-minute training session's final start is 3:30 PM, followed by cleanup until 6 PM. Training uses the existing in-person address and hours; no new location or hours were introduced.
 
-Owner-approved rules: 60-day booking horizon (Acuity's day-based implementation of two months), 24-hour cancellation notice, a late-cancellation fee of 25% of the scheduled session price, and an 8-hour rescheduling cutoff. Acuity uses one shared online-change cutoff, set to 8 hours. Cancellations between 8 and 24 hours remain subject to the fee; later cancellations use the confirmation email's verified reply-to address. Automatic fee collection is not configured. Hands-on location: 9209 Winfield Lane, Moore, OK 73160; coaching does not inherit that physical location.
+Owner-approved rules: 60-day booking horizon (Acuity's day-based implementation of two months), 24-hour cancellation notice, a late-cancellation fee of 25% of the scheduled session price, and an 8-hour rescheduling cutoff. Acuity uses one shared online-change cutoff, set to 8 hours. Cancellations between 8 and 24 hours remain subject to the fee; later cancellations use the confirmation email's verified reply-to address. Automatic fee collection is not configured. Street-address details are maintained privately in Acuity for confirmed massage/Pretzeling clients. Public website files must not contain the home address or directions links.
 
 A private-pilot workaround requires a phone number. Clearing an optional phone field caused a vendor UI null.length error during the first test. Native required-phone validation produced a clear error and the subsequent valid competing submissions passed. The owner explicitly deferred reminder verification to a later refresh after the trial ends; it is outside this wave's acceptance scope. The original default 24-hour reminder was observed in Refresh 2, but due-time delivery and new-type reminder behavior have not been verified. The earlier Starter trial blocked reminder customization; Standard is now active. Reminder checks remain deferred until a later owner-approved refresh.
 
 ## Routine updates
 
-Edit the approved catalog, public policy, and appointment-type mappings in `js/booking-model.js`. Update the matching Acuity appointment types as well; the static site does not automatically fetch provider prices. Keep HTML price fallbacks, service-card price summaries, and the fifteen no-JavaScript booking links consistent. Read back native prices after saving; Acuity's masked currency input requires a full replacement and blur before saving.
+Edit the approved catalog, public policy, and appointment-type mappings in `js/booking-model.js`. Update the matching Acuity appointment types as well; the static site does not automatically fetch provider prices. Keep HTML price fallbacks, service-card price summaries, and the seventeen no-JavaScript booking links consistent. Read back native prices after saving; Acuity's masked currency input requires a full replacement and blur before saving.
 
 Hours, lead time, padding, busy-calendar selection, and notifications belong in Acuity. Keep the website's descriptive hours synchronized when these settings change.
 
@@ -87,3 +87,11 @@ The hero uses `assets/images/brand-hero.webp` unless the optional `assets/videos
 ## Rollback
 
 The pre-Refresh 3 checkpoint is `1d0935395091168adbf5317932e0ee31bf3d4783`. Approved Refresh 1 is tag `approved-refresh-1-2026-10-26`, commit `53fb08c872565aa4b20696f685b9e4226f5426da`. Recover an earlier revision on a separate branch and review before publishing. Acuity descriptions, private types, Stripe connection, payment rules, and authorization forms are external state. A Git rollback does not revert them; review corresponding native settings separately before changing them.
+
+## Privacy and mixed-pack cleanup — October 29, 2026
+
+The cleanup branch removes the home street address and directions from all public HTML, JavaScript and documentation. Only Moore, Oklahoma remains public. Confirmed massage/chair/Pretzeling clients receive location details through Acuity; public scheduling instructions and training locations require the reviewed native cleanup.
+
+Pretzeling now includes 45/$90 and 60/$120 at the existing $2/minute rate, with 15 minutes after. Actual private native type IDs are mapped in the catalog.
+
+`js/mixed-bundles.js` calculates exactly three eligible massage/chair/Pretzeling sessions at 25% below their summed standard price. `js/mixed-bundle-ui.js` renders the selector and opens the client’s email draft to request a personalized checkout link. The selector itself takes no payment, creates no package/code and reserves no time. Coach creates the exact approved native three-credit pack and sends its private link; Acuity issues the redemption code after purchase. Fully automatic credit creation is deferred because the current Standard plan lacks API access. Never expose API/Stripe secrets in the static website.
